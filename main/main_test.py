@@ -55,9 +55,15 @@ class EndPointTest(unittest.TestCase):
                 new_session=True
             else :
                 new_session=False
-            data_label = casedata['请求数据']
-            jutil = JsonUtil('../data/data.json')
-            data = jutil.get_data(data_label)
+                
+            data = []
+            if casedata['请求数据']!='':
+                
+                data_label = casedata['请求数据']
+                jutil = JsonUtil('../data/data.json')
+                data = jutil.get_data(data_label)
+            print("data:")
+            print(data)
             res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
             print("response code:%s"%res.status_code)
             #print("response headers:%s"%res.headers)
