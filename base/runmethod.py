@@ -7,7 +7,9 @@ Created on Wed Aug 22 11:12:29 2018
 
 import requests
 import json
-import globalvars as glo
+import sys
+sys.path.append('..')
+import main.globalvars as glo
 
 class RunMethod:
     def post_main(self,url,data,headers=None,verify=False,new_session=False):
