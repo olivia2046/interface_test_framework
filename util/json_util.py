@@ -28,7 +28,8 @@ class JsonUtil:
 
     #写json
     def write_data(self,data):
-        with open('../dataconfig/cookie.json','w') as fp:
+        #with open('../dataconfig/cookie.json','w') as fp:
+        with open(cookie_file,'w') as fp:
             fp.write(json.dumps(data))
     
 if __name__ == '__main__':

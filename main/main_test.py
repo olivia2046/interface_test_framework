@@ -8,18 +8,14 @@ Created on Tue Aug 21 20:55:06 2018
 import unittest
 import ddt
 import pandas as pd
-import requests
 #import HTMLTestRunner
 import sys
 sys.path.append('..')
-from util.json_util import JsonUtil
-from base.runmethod import RunMethod
 from base.executestep import ExecuteStep
 import globalvars as glo
 
-
-#datafrm = pd.read_excel('testcase.xlsx').drop(columns=['CaseId','Desc'])
-datafrm = pd.read_excel('../case/testcase.xlsx')
+#datafrm = pd.read_excel('../case/testcase.xlsx')
+datafrm = pd.read_excel(glo.testcase_file)
 datafrm = datafrm.fillna('')
 testdata = []
 datafrm.apply(lambda x:testdata.append(x.to_dict()),axis=1)

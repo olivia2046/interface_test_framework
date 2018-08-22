@@ -14,21 +14,24 @@ import main.globalvars as glo
 class RunMethod:
     def post_main(self,url,data,headers=None,verify=False,new_session=False):
         res = None
-        if new_session==True:
+        if new_session:
             s = requests.Session()
         else :
             s = glo.get_value('Session') #获取全局变量Session
         res = s.post(url=url,data=data,headers=headers,verify=verify)
+        s.set_value('Session',s)
         #return res.json()
         return res
 
     def get_main(self,url,data=None,headers=None,verify=False,new_session=False):
         res = None
-        if new_session==True:
+        if new_session:
             s = requests.Session()
         else :
             s = glo.get_value('Session') #获取全局变量Session       
         res = s.get(url=url,data=data,headers=headers)
+        print("set session~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        s.set_value('Session',s)
         
         #return res.json()
         return res
@@ -36,8 +39,10 @@ class RunMethod:
     def run_main(self,method,url,data=None,headers=None,verify=False,new_session=False):
         res = None
         if method == 'Post':
+            print("Posting~~~~~~~~~~~~~~~~~~~~~~")
             res = self.post_main(url,data,headers,verify=verify,new_session=new_session)
         else:
+            print("Getting~~~~~~~~~~~~~~~~~~~~~~")
             res = self.get_main(url,data,headers,verify=verify,new_session=new_session)
         #return json.dumps(res,ensure_ascii=False)
         #return json.dumps(res,ensure_ascii=False,sort_keys=True,indent=2)
