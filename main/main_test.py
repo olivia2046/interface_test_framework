@@ -4,50 +4,30 @@ Created on Tue Aug 21 20:55:06 2018
 
 @author: olivia
 """
-
-import unittest
-import ddt
-import pandas as pd
-#import HTMLTestRunner
-import sys
+import HTMLTestRunner
+import sys,time
 sys.path.append('..')
-from base.executestep import ExecuteStep
-import globalvars as glo
-
-#datafrm = pd.read_excel('../case/testcase.xlsx')
-datafrm = pd.read_excel(glo.testcase_file)
-datafrm = datafrm.fillna('')
-testdata = []
-datafrm.apply(lambda x:testdata.append(x.to_dict()),axis=1)
-#print(testdata)
-
-
-@ddt.ddt
-class EndPointTest(unittest.TestCase):
-    
-    def setUp(self):
-        pass
-    
-    @ddt.data(*testdata)
-    def test_interface(self, casedata):
-        if casedata['是否运行'].upper()=='Y': #如果未标注运行，则该testcase跳过
-
-            res = ExecuteStep().execute(casedata)
-            print("response code:%s"%res.status_code)
-            #print("response headers:%s"%res.headers)
-            expected_status_code = casedata['期望响应代码']
-            expected_res_txt = casedata['期望响应文本']
-            self.assertEqual(res.status_code,expected_status_code, 'Status Code not as expected!')
-            #self.assertIn(expected_res_txt,res.text, 'Response text not as expected!')
-            
-            
-            #print(res.text)
-        
-    
-    def tearDown(self):
-        pass
+from case.general_interface_test import InterfaceTest
     
     
 if __name__=='__main__':
     
-    unittest.main()
+    #unittest.main()
+    #testsuite = unittest.TestSuite()
+    #testsuite.addTests(InterfaceTest("test_interface"))
+    testsuite = unittest.TestLoader().loadTestsFromTestCase(InterfaceTest)
+    
+    now = time.strftime('%Y-%m-%d %H_%M_%S',time.localtime())#时分秒中间不能用:连接，无效的文件名
+    report_file = r'../report/report-%s.html'%now
+    fp=open(report_file,'wb')
+    
+    runner=HTMLTestRunner.HTMLTestRunner(
+    stream=fp,
+    title=u'接口测试报告',
+    description=u'用例执行情况：')
+    
+    runner.run(testsuite)
+
+    #关闭文件流，不关的话生成的报告是空的
+    fp.close()
+    

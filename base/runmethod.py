@@ -18,8 +18,10 @@ class RunMethod:
             s = requests.Session()
         else :
             s = glo.get_value('Session') #获取全局变量Session
+        print("cookies for post")
+        print(s.cookies)
         res = s.post(url=url,data=data,headers=headers,verify=verify)
-        s.set_value('Session',s)
+        glo.set_value('Session',s)
         #return res.json()
         return res
 
@@ -31,14 +33,14 @@ class RunMethod:
             s = glo.get_value('Session') #获取全局变量Session       
         res = s.get(url=url,data=data,headers=headers)
         print("set session~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        s.set_value('Session',s)
+        glo.set_value('Session',s)
         
         #return res.json()
         return res
 
     def run_main(self,method,url,data=None,headers=None,verify=False,new_session=False):
         res = None
-        if method == 'Post':
+        if method.upper() == 'POST':
             print("Posting~~~~~~~~~~~~~~~~~~~~~~")
             res = self.post_main(url,data,headers,verify=verify,new_session=new_session)
         else:
