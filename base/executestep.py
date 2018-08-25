@@ -61,10 +61,10 @@ class DependentData:
         elif depend_data.startswith('html:'):
             pattern = re.compile(depend_data.split(':')[1])#取中间的字符串
             matches = re.findall(pattern,response_data.text)
-            print(matches)
+            #print(matches)
             indice = int(depend_data.split(':')[2])
             dependent_value = matches[indice] #到底应该取第一个还是第二个？
-            print("dependent value:%s"%dependent_value)
+            #print("dependent value:%s"%dependent_value)
             return dependent_value
         
         #if depend_url = 
@@ -107,8 +107,8 @@ class ExecuteStep():
             #print("保持会话~~~~~~~~~~~~~~~~~~~~~~")
             new_session=False
             
-        print("data:")
-        print(data)
+        #print("data:")
+        #print(data)
         res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
         
         return res
