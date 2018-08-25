@@ -43,7 +43,9 @@ class DependentData:
         
 
     #根据依赖的key去获取执行依赖测试case的响应,然后返回
-    def get_data_for_key(self,depend_data):
+    def get_data_for_case(self,case_data):
+        depend_data = case_data['Post Data依赖的返回数据']
+        depend_url = case_data['URL后缀依赖的返回数据']
         response_data = self.run_dependent()
         
         with open('loginpage.html','wt',encoding='utf8') as f:
@@ -65,13 +67,14 @@ class DependentData:
             print("dependent value:%s"%dependent_value)
             return dependent_value
         
+        #if depend_url = 
     
 class ExecuteStep():
     
     def execute(self,casedata):
         #print(casedata)
-        url = casedata['URL']
-        if casedata['是否携带header'].upper()=='Y':
+
+        if casedata['指定header'].upper()=='Y':
             header_label = casedata['header内容']
             #jutil = JsonUtil('../data/headers.json')
             jutil = JsonUtil(glo.header_file)
@@ -88,11 +91,14 @@ class ExecuteStep():
         #获取case依赖数据
         if casedata['case依赖'] !='':#casedata已先期将nan替换为''
             depend_data = DependentData(casedata['case依赖'])
-            value = depend_data.get_data_for_key(casedata['依赖的返回数据'])
+            #value = depend_data.get_data_for_key(casedata['依赖的返回数据'])
+            value = depend_data.get_data_for_case(casedata)
             field = casedata['数据依赖字段']
             
             data[field] = value            
-                 
+        
+        
+        url = casedata['URL']
            
         if casedata['新会话'].upper()=='Y':
             #print("新会话~~~~~~~~~~~~~~~~~~~~~~~~")

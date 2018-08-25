@@ -11,7 +11,7 @@ import pandas as pd
 import sys,time
 sys.path.append('..')
 from base.executestep import ExecuteStep
-import globalvars as glo
+import main.globalvars as glo
 
 #glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）
 #datafrm = pd.read_excel('../case/testcase.xlsx')
@@ -29,6 +29,8 @@ class InterfaceTest(unittest.TestCase):
         pass
     
     @ddt.data(*testdata)
+    #@ddt.data({'CaseId': 'github-001', 'Case_Name': 'get_login_page', '概要': '获取登录页面，返回页面的隐藏字段包含后面登录需要的token', '是否运行': 'Y', '新会话': 'Y', 'Site Specific': '', 'case依赖': '', '依赖的返回数据': '', '数据依赖字段': '', 'URL': 'https://github.com/login', 'URL后缀依赖的返回数据': '', '请求类型': 'GET', '指定header': 'Y', 'header内容': 'header1', '请求数据': '', '期望响应代码': 200.0, '期望响应文本': 'Sign in to GitHub'})
+    #@ddt.unpack
     def test_interface(self, casedata):
         '''测试接口'''
         
@@ -45,9 +47,12 @@ class InterfaceTest(unittest.TestCase):
             expected_status_code = casedata['期望响应代码']
             expected_res_txt = casedata['期望响应文本']
             self.assertEqual(res.status_code,expected_status_code, 'Status Code not as expected!')
-            self.assertIn(expected_res_txt,res.text, 'Response text not as expected!')
+            #self.assertRegexpMatches(expected_res_txt,res.text, 'Response text not as expected!')
             #self.assertIn('302',res.headers['Status'], 'Response status not as expected!')
-       
+            #validate(self,casedata['对比方法'],expected_res_txt,res.text, 'Response text not as expected!')
+            eval("self."+ casedata['对比方法'])(expected_res_txt,res.text, 'Response text not as expected!')
+
+     
             
             #print(res.text)
         

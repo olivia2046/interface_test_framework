@@ -4,7 +4,7 @@ Created on Tue Aug 21 20:55:06 2018
 
 @author: olivia
 """
-import HTMLTestRunner
+import unittest,HTMLTestRunner
 import sys,time
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest

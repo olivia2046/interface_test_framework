@@ -6,7 +6,6 @@ Created on Wed Aug 22 11:12:29 2018
 """
 
 import requests
-import json
 import sys
 sys.path.append('..')
 import main.globalvars as glo
@@ -31,7 +30,7 @@ class RunMethod:
             s = requests.Session()
         else :
             s = glo.get_value('Session') #获取全局变量Session       
-        res = s.get(url=url,data=data,headers=headers)
+        res = s.get(url=url,data=data,headers=headers,verify=verify)
         print("set session~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         glo.set_value('Session',s)
         
