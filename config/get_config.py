@@ -12,14 +12,18 @@ cf=ConfigParser()
 #conffile = os.path.abspath('.') + os.sep + "settings.ini" #会在运行时引用主程序的当前路径
 abspath = os.path.split(os.path.realpath(__file__))[0]
 cfgfile = abspath  + os.sep + "settings.ini"
-#fp = open(cfgfile,'r')
-#cf.readfp(fp)
 cf.read(cfgfile)
-#print(cf.get('FilePath','testcase_file'))
-print(cf.sections())
+#print(cf.sections())
 
 def get_testcase_file():
-    return os.path.abspath('..') + os.sep + cf.get('FilePath','testcase_file')
+    return abspath + os.sep + '..' + os.sep + cf.get('FilePath','testcase_file')
+
+def get_header_file():
+    return abspath + os.sep + '..' + os.sep + cf.get('FilePath','header_file')
+
+def get_data_file():
+    return abspath + os.sep + '..' + os.sep + cf.get('FilePath','data_file')
+
 
 def get_email_config():
     email_host = cf.get('Email','email_host')

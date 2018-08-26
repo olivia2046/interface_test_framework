@@ -10,6 +10,8 @@ import sys
 sys.path.append('..')
 import main.globalvars as glo
 
+glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
+
 class RunMethod:
     def post_main(self,url,data,headers=None,verify=False,new_session=False):
         res = None

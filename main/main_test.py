@@ -9,8 +9,10 @@ import sys,time
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest
 from util.send_email import SendEmail
+#import globalvars as glo
     
-    
+
+#glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
 if __name__=='__main__':
     
     #unittest.main()

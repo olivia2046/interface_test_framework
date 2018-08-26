@@ -10,10 +10,9 @@ from base.runmethod import RunMethod
 #from base.dependent_data import DependentData
 from util.json_util import JsonUtil
 from base.getdata import GetData
-import main.globalvars as glo
+#import main.globalvars as glo
+from config.get_config import get_header_file,get_data_file
 
-
-glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）
 
 class DependentData:
     def __init__(self,case_id):
@@ -78,7 +77,8 @@ class ExecuteStep():
         if casedata['指定header'].upper()=='Y':
             header_label = casedata['header内容']
             #jutil = JsonUtil('../data/headers.json')
-            jutil = JsonUtil(glo.header_file)
+            #jutil = JsonUtil(glo.header_file)
+            jutil = JsonUtil(get_header_file())
             header = jutil.get_data(header_label)
         else:
             header = None
@@ -86,7 +86,8 @@ class ExecuteStep():
         data = []
         if casedata['请求数据']!='':            
             data_label = casedata['请求数据']
-            jutil = JsonUtil('../data/data.json')
+            #jutil = JsonUtil('../data/data.json')
+            jutil = JsonUtil(get_data_file())
             data = jutil.get_data(data_label)
         
         #获取case依赖数据

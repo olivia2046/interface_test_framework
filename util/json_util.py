@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug 22 06:20:19 2018
-
+参考了慕课网Python接口测试自动化课程的部分实现
 @author: olivia
 """
 
@@ -26,12 +26,8 @@ class JsonUtil:
         #print type(self.data)
         return self.data[id]
 
-    #写json
-    def write_data(self,data):
-        #with open('../dataconfig/cookie.json','w') as fp:
-        with open(cookie_file,'w') as fp:
-            fp.write(json.dumps(data))
-    
-if __name__ == '__main__':
-    jutil = JsonUtil()
-    #print (jutil.get_data('data1'))
+#    #写json
+#    def write_data(self,data):
+#        #with open('../dataconfig/cookie.json','w') as fp:
+#        with open(cookie_file,'w') as fp:
+#            fp.write(json.dumps(data))
