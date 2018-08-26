@@ -48,8 +48,9 @@ class DependentData:
         depend_url = case_data['URL后缀依赖的返回数据']
         response_data = self.run_dependent()
         
-        with open('loginpage.html','wt',encoding='utf8') as f:
-            f.write(response_data.text)
+#        with open('loginpage.html','wt',encoding='utf8') as f:
+#            f.write(response_data.text)
+            
         #获取依赖数据的key
         #print("dependent data: %s"%depend_data) 
         #print("dependent case response_data:")
