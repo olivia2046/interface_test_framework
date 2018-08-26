@@ -34,4 +34,4 @@ class JsonUtil:
     
 if __name__ == '__main__':
     jutil = JsonUtil()
-    print (jutil.get_data('data1'))
+    #print (jutil.get_data('data1'))

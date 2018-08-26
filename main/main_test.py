@@ -8,6 +8,7 @@ import unittest,HTMLTestRunner
 import sys,time
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest
+from util.send_email import SendEmail
     
     
 if __name__=='__main__':
@@ -30,4 +31,7 @@ if __name__=='__main__':
 
     #关闭文件流，不关的话生成的报告是空的
     fp.close()
+    
+    #SendEmail().send_main(report_file)
+    
     

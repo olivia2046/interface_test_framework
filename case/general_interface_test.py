@@ -8,14 +8,13 @@ Created on Thu Aug 23 08:00:48 2018
 import unittest
 import ddt
 import pandas as pd
-import sys,time
+import sys
 sys.path.append('..')
 from base.executestep import ExecuteStep
-import main.globalvars as glo
+from config.get_config import get_testcase_file
 
-#glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）
-#datafrm = pd.read_excel('../case/testcase.xlsx')
-datafrm = pd.read_excel(glo.testcase_file)
+
+datafrm = pd.read_excel(get_testcase_file())
 datafrm = datafrm.fillna('')
 testdata = []
 datafrm.apply(lambda x:testdata.append(x.to_dict()),axis=1)
@@ -29,8 +28,6 @@ class InterfaceTest(unittest.TestCase):
         pass
     
     @ddt.data(*testdata)
-    #@ddt.data({'CaseId': 'github-001', 'Case_Name': 'get_login_page', '概要': '获取登录页面，返回页面的隐藏字段包含后面登录需要的token', '是否运行': 'Y', '新会话': 'Y', 'Site Specific': '', 'case依赖': '', '依赖的返回数据': '', '数据依赖字段': '', 'URL': 'https://github.com/login', 'URL后缀依赖的返回数据': '', '请求类型': 'GET', '指定header': 'Y', 'header内容': 'header1', '请求数据': '', '期望响应代码': 200.0, '期望响应文本': 'Sign in to GitHub'})
-    #@ddt.unpack
     def test_interface(self, casedata):
         '''测试接口'''
         
@@ -38,11 +35,11 @@ class InterfaceTest(unittest.TestCase):
 
             res = ExecuteStep().execute(casedata)
             
-            now=time.strftime("%Y-%m-%d %H_%M_%S",time.localtime())
-            with open(r'../report/ResponsePage-%s.html'%now,'w',encoding='utf8') as f:
-                f.write(res.text)
+#            now=time.strftime("%Y-%m-%d %H_%M_%S",time.localtime())
+#            with open(r'../report/ResponsePage-%s.html'%now,'w',encoding='utf8') as f:
+#                f.write(res.text)
             #print("reason：%s"%res.reason)
-            print("response code:%s"%res.status_code)
+            #print("response code:%s"%res.status_code)
             #print("response headers:%s"%res.headers)
             expected_status_code = casedata['期望响应代码']
             expected_res_txt = casedata['期望响应文本']
