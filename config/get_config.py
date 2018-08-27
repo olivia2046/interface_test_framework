@@ -8,8 +8,8 @@ Created on Sun Aug 26 13:46:36 2018
 from configparser import ConfigParser
 import os
 cf=ConfigParser()
-#读取的配置文件必须是绝对路径！
 #conffile = os.path.abspath('.') + os.sep + "settings.ini" #会在运行时引用主程序的当前路径
+#ConfigParser读取的配置文件必须是实际绝对路径！
 abspath = os.path.split(os.path.realpath(__file__))[0]
 cfgfile = abspath  + os.sep + "settings.ini"
 cf.read(cfgfile)

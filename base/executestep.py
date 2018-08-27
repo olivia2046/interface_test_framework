@@ -5,12 +5,11 @@ Created on Wed Aug 22 13:59:53 2018
 @author: olivia
 """
 import sys,re
+from jsonpath_rw import jsonpath,parse
 sys.path.append('..')
 from base.runmethod import RunMethod
-#from base.dependent_data import DependentData
 from util.json_util import JsonUtil
 from base.getdata import GetData
-#import main.globalvars as glo
 from config.get_config import get_header_file,get_data_file
 
 
@@ -22,16 +21,7 @@ class DependentData:
 
     #执行依赖测试，获取结果
     def run_dependent(self):
-        '''
-        run_method = RunMethod()
-        row_num  = self.opera_excel.get_row_num(self.case_id)
-        request_data = self.data.get_data_for_json(row_num)
-        #header = self.data.is_header(row_num)
-        method = self.data.get_request_method(row_num)
-        url = self.data.get_request_url(row_num)
-        res = run_method.run_main(method,url,request_data)
-        return json.loads(res)
-        '''
+
         #通过case_id去获取该case_id的整行数据
         #print("run dependent case: %s"%self.case_id)
         self.depend_case_data = GetData().get_case_data(self.case_id)
@@ -76,8 +66,6 @@ class ExecuteStep():
 
         if casedata['指定header'].upper()=='Y':
             header_label = casedata['header内容']
-            #jutil = JsonUtil('../data/headers.json')
-            #jutil = JsonUtil(glo.header_file)
             jutil = JsonUtil(get_header_file())
             header = jutil.get_data(header_label)
         else:
@@ -86,7 +74,6 @@ class ExecuteStep():
         data = []
         if casedata['请求数据']!='':            
             data_label = casedata['请求数据']
-            #jutil = JsonUtil('../data/data.json')
             jutil = JsonUtil(get_data_file())
             data = jutil.get_data(data_label)
         
@@ -94,11 +81,10 @@ class ExecuteStep():
         if casedata['case依赖'] !='':#casedata已先期将nan替换为''
             depend_data = DependentData(casedata['case依赖'])
             #value = depend_data.get_data_for_key(casedata['依赖的返回数据'])
-            value = depend_data.get_data_for_case(casedata)
+            #依赖的返回数据可能不止一处，返回的json数据，返回的html页面的一部分(authenticity_token， 如果要动态操作repository，则url也依赖返回的html页面元素)
+            value = depend_data.get_data_for_case(casedata) 
             field = casedata['数据依赖字段']
-            
             data[field] = value            
-        
         
         url = casedata['URL']
            
@@ -112,5 +98,4 @@ class ExecuteStep():
         #print("data:")
         #print(data)
         res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
-        
         return res

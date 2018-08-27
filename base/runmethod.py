@@ -26,14 +26,13 @@ class RunMethod:
         #return res.json()
         return res
 
-    def get_main(self,url,data=None,headers=None,verify=False,new_session=False):
+    def get_main(self,url,data=None,headers=None,verify=None,new_session=False):
         res = None
         if new_session:
             s = requests.Session()
         else :
             s = glo.get_value('Session') #获取全局变量Session       
         res = s.get(url=url,data=data,headers=headers,verify=verify)
-        #print("set session~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         glo.set_value('Session',s)
         
         #return res.json()
@@ -42,11 +41,9 @@ class RunMethod:
     def run_main(self,method,url,data=None,headers=None,verify=False,new_session=False):
         res = None
         if method.upper() == 'POST':
-            #print("Posting~~~~~~~~~~~~~~~~~~~~~~")
             res = self.post_main(url,data,headers,verify=verify,new_session=new_session)
         else:
-            #print("Getting~~~~~~~~~~~~~~~~~~~~~~")
-            res = self.get_main(url,data,headers,verify=verify,new_session=new_session)
+            res = self.get_main(url,data,headers,new_session=new_session)
         #return json.dumps(res,ensure_ascii=False)
         #return json.dumps(res,ensure_ascii=False,sort_keys=True,indent=2)
         return res

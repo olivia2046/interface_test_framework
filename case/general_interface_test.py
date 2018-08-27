@@ -44,12 +44,8 @@ class InterfaceTest(unittest.TestCase):
             expected_status_code = casedata['期望响应代码']
             expected_res_txt = casedata['期望响应文本']
             self.assertEqual(res.status_code,expected_status_code, 'Status Code not as expected!')
-            #self.assertRegexpMatches(expected_res_txt,res.text, 'Response text not as expected!')
-            #self.assertIn('302',res.headers['Status'], 'Response status not as expected!')
-            #validate(self,casedata['对比方法'],expected_res_txt,res.text, 'Response text not as expected!')
             eval("self."+ casedata['对比方法'])(expected_res_txt,res.text, 'Response text not as expected!')
-
-     
+    
             
             #print(res.text)
         
