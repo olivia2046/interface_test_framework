@@ -6,10 +6,10 @@ Created on Thu Aug 23 08:00:48 2018
 """
 
 import unittest
-import ddt
 import pandas as pd
 import sys
 sys.path.append('..')
+from util import ddt
 from base.executestep import ExecuteStep
 from config.get_config import get_testcase_file
 
