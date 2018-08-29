@@ -6,9 +6,11 @@ Created on Wed Aug 22 11:12:29 2018
 """
 
 import requests
+#import globalvars as glo # why no module named 'globalvars'
 import sys
 sys.path.append('..')
-import main.globalvars as glo
+import base.globalvars as glo 
+
 
 glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
 
