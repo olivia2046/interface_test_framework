@@ -5,7 +5,7 @@ Created on Tue Aug 21 20:55:06 2018
 @author: olivia
 """
 import unittest
-import sys,time
+import sys,time,os
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest
 from util.send_email import SendEmail
@@ -22,13 +22,17 @@ if __name__=='__main__':
     testsuite = unittest.TestLoader().loadTestsFromTestCase(InterfaceTest)
     
     now = time.strftime('%Y-%m-%d %H_%M_%S',time.localtime())#时分秒中间不能用:连接，无效的文件名
+    if not os.path.exists('../report'):
+        os.makedirs('../report')
     report_file = r'../report/report-%s.html'%now
     fp=open(report_file,'wb')
     
     runner=HTMLTestRunner.HTMLTestRunner(
     stream=fp,
     title=u'接口测试报告',
-    description=u'用例执行情况：')
+    description=u'用例执行情况：'
+    ,verbosity=2
+    )
     
     runner.run(testsuite)
 

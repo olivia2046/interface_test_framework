@@ -5,12 +5,12 @@ Created on Wed Aug 22 13:59:53 2018
 @author: olivia
 """
 import sys,re
-from jsonpath_rw import jsonpath,parse
+#from jsonpath_rw import jsonpath,parse
 sys.path.append('..')
 from base.runmethod import RunMethod
 from util.json_util import JsonUtil
 from base.getdata import GetData
-from config.get_config import get_header_file,get_data_file
+from config.get_config import get_header_file,get_data_file,get_root_url
 
 
 class DependentData:
@@ -86,7 +86,7 @@ class ExecuteStep():
             field = casedata['数据依赖字段']
             data[field] = value            
         
-        url = casedata['URL']
+        url = get_root_url() + casedata['URL']
            
         if casedata['新会话'].upper()=='Y':
             #print("新会话~~~~~~~~~~~~~~~~~~~~~~~~")

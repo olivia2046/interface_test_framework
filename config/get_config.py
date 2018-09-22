@@ -33,3 +33,7 @@ def get_email_config():
     cc_list = cf.get('Email','cc_list').split(';')
     return({'email_host':email_host,'send_user':send_user,
             'password':password,'user_list':user_list,'cc_list':cc_list})
+    
+def get_root_url():
+    return cf.get('AUT','root_url')
+    
