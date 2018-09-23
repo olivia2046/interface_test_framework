@@ -19,11 +19,12 @@ class RunMethod:
         res = None
         if new_session:
             s = requests.Session()
+            res = s.post(url=url,data=data,headers=headers,verify=verify)
         else :
             s = glo.get_value('Session') #获取全局变量Session
+            res = s.post(url=url,data=data,verify=verify)
         #print("cookies for post")
         #print(s.cookies)
-        res = s.post(url=url,data=data,headers=headers,verify=verify)
         glo.set_value('Session',s)
         #return res.json()
         return res
@@ -32,9 +33,20 @@ class RunMethod:
         res = None
         if new_session:
             s = requests.Session()
+            #s.proxies = {'http': ''}
+            #print("header:%s"%headers)
+            #res = s.get(url=url,data=data,headers=headers,verify=verify)
+           
         else :
-            s = glo.get_value('Session') #获取全局变量Session       
-        res = s.get(url=url,data=data,headers=headers,verify=verify)
+            s = glo.get_value('Session') #获取全局变量Session
+            #print("header:%s"%s.headers)
+        if headers is None:
+            print("header:%s"%s.headers)
+            res = s.get(url=url,data=data,verify=verify)
+        else:
+            print("header:%s"%headers)
+            res = s.get(url=url,data=data,headers=headers,verify=verify)
+        print(s.cookies)
         glo.set_value('Session',s)
         
         #return res.json()

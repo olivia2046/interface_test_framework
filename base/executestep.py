@@ -10,7 +10,7 @@ sys.path.append('..')
 from base.runmethod import RunMethod
 from util.json_util import JsonUtil
 from base.getdata import GetData
-from config.get_config import get_header_file,get_data_file,get_root_url
+from config.get_config import get_header_file,get_data_file,get_root_url,get_cert_file,get_verify
 
 
 class DependentData:
@@ -97,5 +97,11 @@ class ExecuteStep():
             
         #print("data:")
         #print(data)
-        res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
+        if get_verify()=='False':
+            print("no need to vefify.")
+            res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
+        else:
+            print("certificate path:%s"%get_verify())
+            #print(header)
+            res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=get_verify(),new_session=new_session)
         return res
