@@ -7,7 +7,7 @@ Created on Wed Aug 22 11:12:29 2018
 
 import requests
 #import globalvars as glo # why no module named 'globalvars'
-import sys
+import sys,logging
 sys.path.append('..')
 import base.globalvars as glo 
 
@@ -41,12 +41,18 @@ class RunMethod:
             s = glo.get_value('Session') #获取全局变量Session
             #print("header:%s"%s.headers)
         if headers is None:
-            print("header:%s"%s.headers)
+            logging.debug("header parameter is None, session header is: ")
+            logging.debug("header:%s"%s.headers)
             res = s.get(url=url,data=data,verify=verify)
         else:
-            print("header:%s"%headers)
+            logging.debug("header parameter is:")
+            logging.debug("header:%s"%headers)
             res = s.get(url=url,data=data,headers=headers,verify=verify)
-        print(s.cookies)
+        #print("logging level in runmethod:")
+        #print(logging.getLogger().level)
+        
+        logging.debug("session cookie: ")
+        logging.debug(s.cookies)
         glo.set_value('Session',s)
         
         #return res.json()

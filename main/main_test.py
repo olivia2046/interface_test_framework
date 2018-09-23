@@ -5,17 +5,22 @@ Created on Tue Aug 21 20:55:06 2018
 @author: olivia
 """
 import unittest
-import sys,time,os
+import sys,time,os,logging
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest
 from util.send_email import SendEmail
 from util import HTMLTestRunner
+from config.get_config import get_log_level
 
     
 
 #glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
 if __name__=='__main__':
     
+    #Note: Spyder调试时有时不能打印logging信息，需要重启Kernel
+    logging.basicConfig(stream=HTMLTestRunner.stdout_redirector,level = eval("logging."+get_log_level()))
+    #,format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+		#datefmt='%a, %d %b %Y %H:%M:%S')
     #unittest.main()
     #testsuite = unittest.TestSuite()
     #testsuite.addTests(InterfaceTest("test_interface"))

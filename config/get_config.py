@@ -24,6 +24,8 @@ def get_header_file():
 def get_data_file():
     return abspath + os.sep + '..' + os.sep + cf.get('FilePath','data_file')
 
+def get_cert_file():
+    return abspath + os.sep + '..' + os.sep + cf.get('FilePath','cert_file')
 
 def get_email_config():
     email_host = cf.get('Email','email_host')
@@ -36,4 +38,9 @@ def get_email_config():
     
 def get_root_url():
     return cf.get('AUT','root_url')
-    
+
+def get_verify():
+    return cf.get('AUT','verify')
+
+def get_log_level():
+    return cf.get('Framework','log_level')

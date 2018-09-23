@@ -4,7 +4,7 @@ Created on Wed Aug 22 13:59:53 2018
 
 @author: olivia
 """
-import sys,re
+import sys,re,logging
 #from jsonpath_rw import jsonpath,parse
 sys.path.append('..')
 from base.runmethod import RunMethod
@@ -97,8 +97,10 @@ class ExecuteStep():
             
         #print("data:")
         #print(data)
-        if get_verify()=='False':
-            print("no need to vefify.")
+        #print("logging level in executestep.py:")
+        #print(logging.getLogger().level)
+        if get_verify().upper()=='FALSE':
+            logging.info("no need to vefify.")
             res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
         else:
             print("certificate path:%s"%get_verify())
