@@ -100,10 +100,10 @@ class ExecuteStep():
         #print("logging level in executestep.py:")
         #print(logging.getLogger().level)
         if get_verify().upper()=='FALSE':
-            logging.info("no need to vefify.")
+            logging.debug("no need to vefify certification.")
             res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
         else:
-            print("certificate path:%s"%get_verify())
+            logging.debug("certificate path:%s"%get_verify())
             #print(header)
             res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=get_verify(),new_session=new_session)
         return res

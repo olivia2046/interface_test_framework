@@ -7,7 +7,7 @@ Created on Thu Aug 23 08:00:48 2018
 
 
 import pandas as pd
-import sys,os,time
+import sys,os,time,logging
 from jsonpath_rw import jsonpath,parse
 import unittest
 sys.path.append('..')
@@ -40,14 +40,16 @@ class InterfaceTest(unittest.TestCase):
             res = ExecuteStep().execute(casedata)
             
             # 调试输出resonse文本
+            '''
             if not os.path.exists('../report'):
                 os.makedirs('../report')
             now=time.strftime("%Y-%m-%d %H_%M_%S",time.localtime())
             with open(r'../report/ResponsePage-%s.html'%now,'w',encoding='utf8') as f:
                 f.write(res.text)
-            print("reason：%s"%res.reason)
-            print("response code:%s"%res.status_code)
-            print("response headers:%s"%res.headers)
+            '''
+            logging.debug("reason：%s"%res.reason)
+            logging.debug("response code:%s"%res.status_code)
+            logging.debug("response headers:%s"%res.headers)
             expected_status_code = casedata['期望响应代码']
             self.assertEqual(res.status_code,expected_status_code, 'Status Code not as expected!')
             #res.raise_for_status()
@@ -64,20 +66,24 @@ class InterfaceTest(unittest.TestCase):
             if expected_json!="":
                 try:
                     json_obj = res.json()
-                    print(json_obj) 
+                    logging.debug(json_obj) 
                     for element in expected_json.split(';'):
+                        if element=="":#最常见的情况是case的最后一个json表达式末尾也跟了一个分号;
+                            logging.warning("json expression is empty")
+                            continue
                         #print("expected json: %s"%element)
                         key_values = element.strip('\n').split('=')
                         path = key_values[0]
-                        print("path: %s"%path)
+                        logging.debug("path: %s"%path)
+      
                         jsonpath_expr = parse(path)
                         matches = jsonpath_expr.find(json_obj)
                         #self.assertIsNotNone(match,"json path not found!")
                         self.assertNotEqual(matches,[],"json path not found!")
-                        print(matches[0].value)
+                        logging.debug(matches[0].value)
                         if len(key_values)>1:
                             value = key_values[1]
-                            print("value: %s"%value)
+                            logging.debug("value: %s"%value)
                             self.assertEqual(value,str(matches[0].value),"expected value: %s, actual: %s"%(value,matches[0].value))
                         
                 except Exception as e:
