@@ -11,6 +11,7 @@ from base.runmethod import RunMethod
 from util.json_util import JsonUtil
 from base.getdata import GetData
 from config.get_config import get_header_file,get_data_file,get_root_url,get_cert_file,get_verify
+from base.case_functions import *
 
 
 class DependentData:
@@ -86,6 +87,9 @@ class ExecuteStep():
             field = casedata['数据依赖字段']
             data[field] = value            
         
+        #@Todo： 需处理URL中带参数的情况
+        #pattern = re.compile("${.+}")
+        #matches = re.findall(pattern,"${get_date_from_today(-7)}&end=${get_date_from_today(0)}")
         url = get_root_url() + casedata['URL']
            
         if casedata['新会话'].upper()=='Y':

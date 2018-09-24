@@ -15,16 +15,26 @@ import base.globalvars as glo
 glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
 
 class RunMethod:
+    #@Todo: 使用eval()调用post/get，只需保留run_main?
     def post_main(self,url,data,headers=None,verify=False,new_session=False):
         res = None
         if new_session:
             s = requests.Session()
-            res = s.post(url=url,data=data,headers=headers,verify=verify)
+            #res = s.post(url=url,data=data,headers=headers,verify=verify)
         else :
             s = glo.get_value('Session') #获取全局变量Session
+            #res = s.post(url=url,data=data,verify=verify)
+        if headers is None:
+            logging.debug("header parameter is None, session header is: ")
+            logging.debug("header:%s"%s.headers)
             res = s.post(url=url,data=data,verify=verify)
-        #print("cookies for post")
-        #print(s.cookies)
+        else:
+            logging.debug("header parameter is:")
+            logging.debug("header:%s"%headers)
+            res = s.post(url=url,data=data,headers=headers,verify=verify)
+        
+        logging.debug("session cookie: ")
+        logging.debug(s.cookies)
         glo.set_value('Session',s)
         #return res.json()
         return res
