@@ -10,8 +10,8 @@ sys.path.append('..')
 from base.runmethod import RunMethod
 from util.json_util import JsonUtil
 from base.getdata import GetData
-from config.get_config import get_header_file,get_data_file,get_root_url,get_cert_file,get_verify
-from base.case_functions import *
+from config.get_config import get_header_file,get_data_file,get_root_url,get_verify
+from base.case_functions import replace_function_with_value
 
 
 class DependentData:
@@ -35,7 +35,6 @@ class DependentData:
     #根据依赖的key去获取执行依赖测试case的响应,然后返回
     def get_data_for_case(self,case_data):
         depend_data = case_data['Post Data依赖的返回数据']
-        depend_url = case_data['URL后缀依赖的返回数据']
         response_data = self.run_dependent()
         
 #        with open('loginpage.html','wt',encoding='utf8') as f:
@@ -88,26 +87,29 @@ class ExecuteStep():
             data[field] = value            
         
         url = get_root_url() + casedata['URL']
-        #@Todo： 需处理URL中带参数的情况
-        pattern = re.compile(r"\${.+?}")
-        #finds = re.findall(pattern,"${get_date_from_today(-7)}&end=${get_date_from_today(0)}")
-        finds = re.findall(pattern,url)
-        #logging.debug(finds)
-        if finds != []:
-            
-            for find in finds:
-                #logging.debug(find)
-                inner_pattern = re.compile(r"\${(.+)?}")
-                
-                function_str = re.match(inner_pattern,find).group(1)
-                #logging.debug(function_str)
-                #logging.debug(eval(function_str))
-                #function_result = eval(function_str)
-                url = url.replace(find,eval(re.match(inner_pattern,find).group(1))) #使用case_functions里的相应函数返回值替换url
-                #url.replace(find,result_str) #使用case_functions里的相应函数返回值替换url
-                
-                
-            logging.debug("final url is: %s"%url)
+
+        url = replace_function_with_value(url)
+        # pattern = re.compile(r"\${.+?}")
+        # #finds = re.findall(pattern,"${get_date_from_today(-7)}&end=${get_date_from_today(0)}")
+        # finds = re.findall(pattern,url)
+        # #logging.debug(finds)
+        # if finds != []:
+        #     for find in finds:
+        #         #logging.debug(find)
+        #         inner_pattern = re.compile(r"\${(.+)?}")
+        #
+        #         inner_str = re.match(inner_pattern,find).group(1)
+        #         project = inner_str.split(':')[0]
+        #         function_name = inner_str.split(':')[1]
+        #
+        #         #logging.debug(function_str)
+        #         #logging.debug(eval(function_str))
+        #         #function_result = eval(function_str)
+        #         #url = url.replace(find,eval(re.match(inner_pattern,find).group(1))) #使用case_functions里的相应函数返回值替换url
+        #         url = url.replace(find, RunMethod().run(project,function_name))  # 使用case_functions里的相应函数返回值替换url
+        #         #url.replace(find,result_str) #使用case_functions里的相应函数返回值替换url
+
+        #     logging.debug("final url is: %s"%url)
             
         
            

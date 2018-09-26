@@ -12,7 +12,7 @@ cf=ConfigParser()
 #ConfigParser读取的配置文件必须是实际绝对路径！
 abspath = os.path.split(os.path.realpath(__file__))[0]
 cfgfile = abspath  + os.sep + "settings.ini"
-cf.read(cfgfile)
+cf.read(cfgfile,encoding="utf-8-sig")
 #print(cf.sections())
 
 def get_testcase_file():
@@ -23,9 +23,6 @@ def get_header_file():
 
 def get_data_file():
     return abspath + os.sep + '..' + os.sep + cf.get('FilePath','data_file')
-
-def get_cert_file():
-    return abspath + os.sep + '..' + os.sep + cf.get('FilePath','cert_file')
 
 def get_email_config():
     email_host = cf.get('Email','email_host')
@@ -44,3 +41,21 @@ def get_verify():
 
 def get_log_level():
     return cf.get('Framework','log_level')
+
+def get_db_type():
+    return cf.get('DB', 'DB_type')
+
+def get_db_host():
+    return cf.get('DB', 'Host')
+
+def get_db_port():
+    return cf.get('DB', 'port')
+
+def get_db_user():
+    return cf.get('DB', 'username')
+
+def get_db_pwd():
+    return cf.get('DB', 'password')
+
+def get_db_database():
+    return cf.get('DB', 'database')

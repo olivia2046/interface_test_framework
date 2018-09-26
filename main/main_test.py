@@ -9,7 +9,7 @@ import sys,time,os,logging
 sys.path.append('..')
 from case.general_interface_test import InterfaceTest
 from util.send_email import SendEmail
-from util import HTMLTestRunner
+from util import HTMLTestRunner,db_util
 from config.get_config import get_log_level
 
     
@@ -38,7 +38,10 @@ if __name__=='__main__':
     description=u'用例执行情况：'
     ,verbosity=2
     )
-    
+
+    #初始化数据库连接池
+    db_util.init_conn_pool()
+
     runner.run(testsuite)
 
     #logging.shutdown()

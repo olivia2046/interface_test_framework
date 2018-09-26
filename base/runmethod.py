@@ -9,7 +9,8 @@ import requests
 #import globalvars as glo # why no module named 'globalvars'
 import sys,logging
 sys.path.append('..')
-import base.globalvars as glo 
+import base.globalvars as glo
+
 
 
 glo._init()#先必须在主模块初始化（只在Main模块需要一次即可）    
@@ -77,3 +78,4 @@ class RunMethod:
         #return json.dumps(res,ensure_ascii=False)
         #return json.dumps(res,ensure_ascii=False,sort_keys=True,indent=2)
         return res
+
