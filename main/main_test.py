@@ -41,6 +41,7 @@ if __name__=='__main__':
     
     runner.run(testsuite)
 
+    #logging.shutdown()
     #关闭文件流，不关的话生成的报告是空的
     fp.close()
     

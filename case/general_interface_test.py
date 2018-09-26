@@ -82,9 +82,11 @@ class InterfaceTest(unittest.TestCase):
                         self.assertNotEqual(matches,[],"json path not found!")
                         logging.debug(matches[0].value)
                         if len(key_values)>1:
-                            value = key_values[1]
-                            logging.debug("value: %s"%value)
-                            self.assertEqual(value,str(matches[0].value),"expected value: %s, actual: %s"%(value,matches[0].value))
+                            expected_value = key_values[1]
+                            if expected_value=='(null)':#期望为空值时可写成(null)或者None
+                                expected_value = 'None'
+                            logging.debug("expected value: %s"%expected_value)
+                            self.assertEqual(expected_value,str(matches[0].value),"expected value: %s, actual: %s"%(expected_value,matches[0].value))
                         
                 except Exception as e:
                     self.assertEqual(1,0,"no json object for the response!") # fails the test

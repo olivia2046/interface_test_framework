@@ -87,10 +87,29 @@ class ExecuteStep():
             field = casedata['数据依赖字段']
             data[field] = value            
         
-        #@Todo： 需处理URL中带参数的情况
-        #pattern = re.compile("${.+}")
-        #matches = re.findall(pattern,"${get_date_from_today(-7)}&end=${get_date_from_today(0)}")
         url = get_root_url() + casedata['URL']
+        #@Todo： 需处理URL中带参数的情况
+        pattern = re.compile(r"\${.+?}")
+        #finds = re.findall(pattern,"${get_date_from_today(-7)}&end=${get_date_from_today(0)}")
+        finds = re.findall(pattern,url)
+        #logging.debug(finds)
+        if finds != []:
+            
+            for find in finds:
+                #logging.debug(find)
+                inner_pattern = re.compile(r"\${(.+)?}")
+                
+                function_str = re.match(inner_pattern,find).group(1)
+                #logging.debug(function_str)
+                #logging.debug(eval(function_str))
+                #function_result = eval(function_str)
+                url = url.replace(find,eval(re.match(inner_pattern,find).group(1))) #使用case_functions里的相应函数返回值替换url
+                #url.replace(find,result_str) #使用case_functions里的相应函数返回值替换url
+                
+                
+            logging.debug("final url is: %s"%url)
+            
+        
            
         if casedata['新会话'].upper()=='Y':
             #print("新会话~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -101,8 +120,6 @@ class ExecuteStep():
             
         #print("data:")
         #print(data)
-        #print("logging level in executestep.py:")
-        #print(logging.getLogger().level)
         if get_verify().upper()=='FALSE':
             logging.debug("no need to vefify certification.")
             res = RunMethod().run_main(method=casedata['请求类型'],url=url,data=data,headers = header,verify=False,new_session=new_session)
