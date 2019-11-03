@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug 22 06:20:19 2018
-参考了慕课网Python接口测试自动化课程的部分实现
 @author: olivia
 """
 
-import json
+import json,logging
+from jsonpath_rw import parse
 
 class JsonUtil:
     def __init__(self, file_path=None):
@@ -31,3 +31,4 @@ class JsonUtil:
 #        #with open('../dataconfig/cookie.json','w') as fp:
 #        with open(cookie_file,'w') as fp:
 #            fp.write(json.dumps(data))
+

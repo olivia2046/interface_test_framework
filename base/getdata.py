@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Aug 22 14:53:07 2018
-
 @author: olivia
 """
 import pandas as pd
 import sys
 sys.path.append('..')
-from config.get_config import get_testcase_file
+from base.get_config import get_testcase_file
 
 class GetData:
     def get_case_data(self,caseid,file_path=None):
@@ -20,8 +19,11 @@ class GetData:
         #case_data = datafrm[datafrm['CaseId']==caseid]#取出一行仍为DataFrame类型，需要取Series
         #print("get case data")
         #print(case_data)
-        case_data = datafrm[datafrm['CaseId']==caseid].iloc[0]#取出一行仍为DataFrame类型，需要取Series
-        return case_data.to_dict()
+        if len(datafrm[datafrm['CaseId']==caseid])>0:
+            case_data = datafrm[datafrm['CaseId']==caseid].iloc[0]#取出一行仍为DataFrame类型，需要取Series
+            return case_data.to_dict()
+        else:
+            return {}
         
     
 
